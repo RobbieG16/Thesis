@@ -40,7 +40,7 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" href="sensor2.php">
-          HAHAHAHAHA
+          Sensors2
         </a>
       </li>
     </ul>
@@ -65,6 +65,11 @@ html, body {
 
 .row {
   flex: 1;
+}
+#sidebar {
+  height: 100%;
+  position: sticky;
+  top: 0;
 }
 
 </style>

@@ -1,229 +1,165 @@
-const daysContainer = document.querySelector(".days"),
-  nextBtn = document.querySelector(".next-btn"),
-  prevBtn = document.querySelector(".prev-btn"),
-  month = document.querySelector(".month"),
-  todayBtn = document.querySelector(".today-btn");
+const daysContainer2 = document.querySelector(".days2"),
+  nextBtn2 = document.querySelector(".next-btn2"),
+  prevBtn2 = document.querySelector(".prev-btn2"),
+  month2 = document.querySelector(".month2"),
+  todayBtn2 = document.querySelector(".today-btn2");
 
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+let statusData2 = {};
 
-let statusData = {};
+const date2 = new Date();
 
-// const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const days2 = document.querySelectorAll(".days2 .day2");
 
-// get current date
-const date = new Date();
-
-const days = document.querySelectorAll(".days .day");
-
-daysContainer.addEventListener("click", (event) => {
+daysContainer2.addEventListener("click", (event) => {
   const target = event.target;
 
-  if (target.classList.contains("day") && target.classList.contains("clickable")) {
-    // The day is clickable, handle the click event
+  if (target.classList.contains("day2") && target.classList.contains("clickable2")) {
     const dayNumber = target.getAttribute("data-day");
 
-    // Calculate the clicked date using the original date and the clicked day
     const clickedDate = calculateClickedDate(dayNumber, target);
 
-    console.log(`Clicked date: ${months[clickedDate.getMonth()]} ${clickedDate.getDate()}, ${clickedDate.getFullYear()}`);
+    console.log(`Clicked date (Second Calendar): ${months[clickedDate.getMonth()]} ${clickedDate.getDate()}, ${clickedDate.getFullYear()}`);
 
-    // Calculate the harvest date, which is the 105th day after the clicked date
     const harvestDate = new Date(clickedDate);
     harvestDate.setDate(clickedDate.getDate() + 105);
 
     const modalBody = `Predicted date of harvest: ${formatDateDisplay(harvestDate)}.`;
 
-    // Show Bootstrap modal with "Predicted Date" as the title
-    $("#exampleModal2").modal("show");
-    $("#exampleModalLabel2").text(`${months[clickedDate.getMonth()]} ${clickedDate.getDate()}, ${clickedDate.getFullYear()}`);
+    $("#exampleModal").modal("show");
+    $("#exampleModalLabel").text(`${months[clickedDate.getMonth()]} ${clickedDate.getDate()}, ${clickedDate.getFullYear()}`);
     $("#modalBody").text(modalBody);
 
-    console.log(`Predicted date of harvest: ${formatDateDisplay(harvestDate)}`);
+    console.log(`Predicted date of harvest (Second Calendar): ${formatDateDisplay(harvestDate)}`);
   }
 });
 
-function calculateClickedDate(dayNumber, target) {
-  // Create a new Date object with the current year and month
-  const clickedDate = new Date(currentYear, target.getAttribute("data-month"), dayNumber);
-  // Set the date to the clicked day
+function calculateClickedDate2(dayNumber, target) {
+  const clickedDate = new Date(currentYear2, target.getAttribute("data-month2"), dayNumber);
   clickedDate.setDate(dayNumber);
 
   return clickedDate;
 }
 
-
-function formatDateDisplay(date) {
+function formatDateDisplay2(date) {
   const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 }
 
+let currentMonth2 = date2.getMonth();
 
-// get current month
-let currentMonth = date.getMonth();
+let currentYear2 = date2.getFullYear();
 
-// get current year
-let currentYear = date.getFullYear();
-
-function renderCalendar() {
-  // Fetch status data asynchronously
-  fetch(`fetch_status2.php?month=${currentMonth + 1}&year=${currentYear}`)
+function renderCalendar2() {
+  fetch(`fetch_status2.php?month=${currentMonth2 + 1}&year=${currentYear2}`)
     .then(response => response.json())
     .then(data => {
-      console.log('Received status data:', data);
-      statusData = data;
+      console.log('Received status data (Second Calendar):', data);
+      statusData2 = data;
 
-      // get prev month current month and next month days
-      date.setDate(1);
-      const firstDay = new Date(currentYear, currentMonth, 1);
-      const lastDay = new Date(currentYear, currentMonth + 1, 0);
-      const lastDayIndex = lastDay.getDay();
-      const lastDayDate = lastDay.getDate();
-      const prevLastDay = new Date(currentYear, currentMonth, 0);
-      const prevLastDayDate = prevLastDay.getDate();
-      const nextDays = 7 - lastDayIndex - 1;
+      date2.setDate(1);
+      const firstDay2 = new Date(currentYear2, currentMonth2, 1);
+      const lastDay2 = new Date(currentYear2, currentMonth2 + 1, 0);
+      const lastDayIndex2 = lastDay2.getDay();
+      const lastDayDate2 = lastDay2.getDate();
+      const prevLastDay2 = new Date(currentYear2, currentMonth2, 0);
+      const prevLastDayDate2 = prevLastDay2.getDate();
+      const nextDays2 = 7 - lastDayIndex2 - 1;
 
-      // update current year and month in header
-      month.innerHTML = `${months[currentMonth]} ${currentYear}`;
+      month2.innerHTML = `${months[currentMonth2]} ${currentYear2}`;
 
-      // update days html
-      let days = "";
+      let days2 = "";
 
-      // prev days html
-      for (let x = firstDay.getDay(); x > 0; x--) {
-        days += `<div class="day prev"></div>`;
+      for (let x = firstDay2.getDay(); x > 0; x--) {
+        days2 += `<div class="day2 prev2">${prevLastDayDate2 - x + 1}</div>`;
       }
 
-      // current month days
-      for (let i = 1; i <= lastDayDate; i++) {
-        // calculate the background color based on the status from PHP
-        const dayStatusData = statusData[i] || { month: currentMonth + 1, year: currentYear, status: 0 };
-        const bgColor = dayStatusData.status === 1 ? 'green' : 'red';
+      for (let i = 1; i <= lastDayDate2; i++) {
+        const dayStatusData2 = statusData2[i] || { month: currentMonth2 + 1, year: currentYear2, status: 0 };
+        const bgColor2 = dayStatusData2.status === 'Green' ? 'green' : 'red';
 
-        // check if its today then add today class
         if (
           i === new Date().getDate() &&
-          currentMonth === new Date().getMonth() &&
-          currentYear === new Date().getFullYear()
+          currentMonth2 === new Date().getMonth() &&
+          currentYear2 === new Date().getFullYear()
         ) {
-          // Make the day clickable if the status is 1
-          const clickableClass = dayStatusData.status === 1 ? 'clickable' : '';
-          days += `<div class="day today ${clickableClass}" style="background-color: ${bgColor}" data-day="${i}" data-month="${currentMonth}">${i}</div>`;
+          const clickableClass2 = dayStatusData2.status === 'Green' ? 'clickable2' : '';
+          days2 += `<div class="day2 today2 ${clickableClass2}" style="background-color: ${bgColor2}" data-day="${i}" data-month2="${currentMonth2}">${i}</div>`;
         } else {
-          // Make the day clickable if the status is 1
-          const clickableClass = dayStatusData.status === 1 ? 'clickable' : '';
-          days += `<div class="day ${clickableClass}" style="background-color: ${bgColor}" data-day="${i}" data-month="${currentMonth}">${i}</div>`;
+          const clickableClass2 = dayStatusData2.status === 'Green' ? 'clickable2' : '';
+          days2 += `<div class="day2 ${clickableClass2}" style="background-color: ${bgColor2}" data-day="${i}" data-month2="${currentMonth2}">${i}</div>`;
         }
       }
 
-      // next MOnth days
-      for (let j = 1; j <= nextDays; j++) {
-        days += `<div class="day next"></div>`;
+      for (let j = 1; j <= nextDays2; j++) {
+        days2 += `<div class="day2 next2">${j}</div>`;
       }
 
-      // run this function with every calendar render
-      hideTodayBtn();
-      daysContainer.innerHTML = days;
+      hideTodayBtn2();
+      daysContainer2.innerHTML = days2;
 
-      // Add event listeners to the clickable days
-      const clickableDays = document.querySelectorAll('.day.clickable');
-      clickableDays.forEach(clickableDay => {
-        clickableDay.addEventListener('click', handleDayClick);
+      const clickableDays2 = document.querySelectorAll('.day2.clickable2');
+      clickableDays2.forEach(clickableDay2 => {
+        clickableDay2.addEventListener('click', handleDayClick2);
       });
     })
     .catch(error => {
-      console.error('Error fetching status data:', error);
-      hideTodayBtn();
-      daysContainer.innerHTML = "";
+      console.error('Error fetching status data (Second Calendar):', error);
+      hideTodayBtn2();
+      daysContainer2.innerHTML = "";
     });
 }
 
-// Function to handle the click event on a clickable day
-function handleDayClick(event) {
+function handleDayClick2(event) {
   const target = event.target;
   const dayNumber = target.getAttribute("data-day");
 
-  // Calculate the clicked date using the original date and the clicked day
-  const clickedDate = calculateClickedDate(dayNumber, target);
+  const clickedDate = calculateClickedDate2(dayNumber, target);
 
-  console.log(`Clicked date: ${months[clickedDate.getMonth()]} ${clickedDate.getDate()}, ${clickedDate.getFullYear()}`);
-
-  // Calculate the harvest date, which is the 105th day after the clicked date
   const harvestDate = new Date(clickedDate);
   harvestDate.setDate(clickedDate.getDate() + 105);
 
-  const modalBody = `Predicted date of harvest: ${formatDateDisplay(harvestDate)}.`;
+  const modalBody = `Predicted date of harvest (Second Calendar): ${formatDateDisplay2(harvestDate)}.`;
 
-  // Show Bootstrap modal with "Predicted Date" as the title
-  $("#exampleModal2").modal("show");
-  $("#exampleModalLabel2").text(`${months[clickedDate.getMonth()]} ${clickedDate.getDate()}, ${clickedDate.getFullYear()}`);
+  $("#exampleModal").modal("show");
+  $("#exampleModalLabel").text(`${months[clickedDate.getMonth()]} ${clickedDate.getDate()}, ${clickedDate.getFullYear()}`);
   $("#modalBody").text(modalBody);
-
-  console.log(`Predicted date of harvest: ${formatDateDisplay(harvestDate)}`);
 }
 
+renderCalendar2();
 
-// Initial rendering of the calendar
-renderCalendar();
-
-// Event listener for the nextBtn
-nextBtn.addEventListener("click", () => {
-  // increase current month by one
-  currentMonth++;
-  if (currentMonth > 11) {
-    // if month gets greater than 11 make it 0 and increase year by one
-    currentMonth = 0;
-    currentYear++;
+nextBtn2.addEventListener("click", () => {
+  currentMonth2++;
+  if (currentMonth2 > 11) {
+    currentMonth2 = 0;
+    currentYear2++;
   }
-  // rerender calendar
-  renderCalendar();
+  renderCalendar2();
 });
 
-
-// prev monyh btn
-prevBtn.addEventListener("click", () => {
-  // increase by one
-  currentMonth--;
-  // check if less than 0 then make it 11 and decrease year
-  if (currentMonth < 0) {
-    currentMonth = 11;
-    currentYear--;
+prevBtn2.addEventListener("click", () => {
+  currentMonth2--;
+  if (currentMonth2 < 0) {
+    currentMonth2 = 11;
+    currentYear2--;
   }
-  renderCalendar();
+  renderCalendar2();
 });
 
-// go to today
-todayBtn.addEventListener("click", () => {
-  // set month and year to current
-  currentMonth = date.getMonth();
-  currentYear = date.getFullYear();
-  // rerender calendar
-  renderCalendar();
+todayBtn2.addEventListener("click", () => {
+  currentMonth2 = date2.getMonth();
+  currentYear2 = date2.getFullYear();
+  renderCalendar2();
 });
 
-// Initial rendering of the calendar
-renderCalendar();
-// lets hide today btn if its already current month and vice versa
+renderCalendar2();
 
-function hideTodayBtn() {
+function hideTodayBtn2() {
   if (
-    currentMonth === new Date().getMonth() &&
-    currentYear === new Date().getFullYear()
+    currentMonth2 === new Date().getMonth() &&
+    currentYear2 === new Date().getFullYear()
   ) {
-    todayBtn.style.display = "none";
+    todayBtn2.style.display = "none";
   } else {
-    todayBtn.style.display = "flex";
+    todayBtn2.style.display = "flex";
   }
 }
