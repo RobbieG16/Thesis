@@ -2,8 +2,8 @@ import random
 import math
 import pandas as pd
 import logging
-from sqlalchemy import create_engine
-import pymysql
+# from sqlalchemy import create_engine
+# import pymysql
 import mysql.connector
 from mysql.connector import errorcode
 from datetime import datetime
@@ -270,11 +270,11 @@ try:
 
     # Map the predicted_status_value to the corresponding string value
     if best_solution[0] == 'GREEN':
-        predicted_status_value = 'green'
+        predicted_status_value = 'Green'
     elif best_solution[0] == 'YELLOW':
-        predicted_status_value = 'yellow'
+        predicted_status_value = 'Yellow'
     else:
-        predicted_status_value = 'red'
+        predicted_status_value = 'Red'
 
     update_cursor.execute(update_query, (predicted_status_value, formatted_current_date))
     db_connection.commit()  # Commit the changes

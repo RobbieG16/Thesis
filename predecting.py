@@ -71,10 +71,12 @@ sample_n_query = f"SELECT all_nitrogen FROM overall_data WHERE reading_date = '{
 sample_p_query = f"SELECT all_phosphorus FROM overall_data WHERE reading_date = '{current_date_str}' ORDER BY reading_date DESC LIMIT 1"
 sample_k_query = f"SELECT all_potassium FROM overall_data WHERE reading_date = '{current_date_str}' ORDER BY reading_date DESC LIMIT 1"
 
+#dito yung part na hardcoded if walang readings
 # Execute queries to get the latest sensor readings
 cursor.execute(sample_temperature_query)
 sample_temperature_result = cursor.fetchone()
-sample_temperature = float(sample_temperature_result[0]) if sample_temperature_result and cursor.rowcount > 0 else 21.0
+print("Sample Temperature Result:", sample_temperature_result)
+sample_temperature = float(sample_temperature_result[0]) if sample_temperature_result and cursor.rowcount > 0 else 21.0#pwede mo palinatan yung input values
 
 cursor.execute(sample_soil_temp_query)
 sample_soil_temp_result = cursor.fetchone()

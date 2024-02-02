@@ -1,8 +1,8 @@
 <?php
 
 $servername = "localhost";
-$username = "esp_data";
-$password = "esp_data";
+$username = "root";
+$password = "";
 $database = "esp_data";
 
 $conn = new mysqli($servername, $username, $password, $database);
@@ -13,6 +13,7 @@ if ($conn->connect_error) {
 
 $query = "SELECT 
             DATE(reading_time) as reading_date,
+            MAX(reading_time) as latest_time,
             AVG(nitrogen) AS avg_nitrogen, 
             AVG(potassium) AS avg_potassium, 
             AVG(phosphorus) AS avg_phosphorus, 
@@ -31,8 +32,9 @@ if ($result) {
         $avgSoilTemperature = $row['avg_soil_temperature'];
         $avgAirTemp = $row['avg_air_temp'];
         $readingDate = $row['reading_date'];
+        $latestTime = $row['latest_time'];
 
-        $checkQuery = "SELECT * FROM avgsensor3 WHERE date = '$readingDate'";
+        $checkQuery = "SELECT * FROM avgsensor3 WHERE date = '$latestTime'";  // Check based on the latest timestamp
         $checkResult = $conn->query($checkQuery);
 
         if ($checkResult->num_rows > 0) {
@@ -41,8 +43,8 @@ if ($result) {
                                 avg_potassium = '$avgPotassium', 
                                 avg_phosphorus = '$avgPhosphorus', 
                                 avg_soil_temperature = '$avgSoilTemperature', 
-                                avg_air_temp = '$avgAirTemp' 
-                            WHERE date = '$readingDate'";
+                                avg_air_temp = '$avgAirTemp'
+                            WHERE date = '$latestTime'";
 
             echo "Update Query: $updateQuery <br>";
 
@@ -56,7 +58,7 @@ if ($result) {
         } else {
             $insertQuery = "INSERT INTO avgsensor3 
                             (avg_nitrogen, avg_potassium, avg_phosphorus, avg_soil_temperature, avg_air_temp, date) 
-                            VALUES ('$avgNitrogen', '$avgPotassium', '$avgPhosphorus', '$avgSoilTemperature', '$avgAirTemp', '$readingDate')";
+                            VALUES ('$avgNitrogen', '$avgPotassium', '$avgPhosphorus', '$avgSoilTemperature', '$avgAirTemp', '$latestTime')";
 
             echo "Insert Query: $insertQuery <br>";
 
@@ -74,5 +76,4 @@ if ($result) {
 }
 
 $conn->close();
-
 ?>
