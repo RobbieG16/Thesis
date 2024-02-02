@@ -71,28 +71,26 @@ sample_n_query = f"SELECT all_nitrogen FROM overall_data WHERE reading_date = '{
 sample_p_query = f"SELECT all_phosphorus FROM overall_data WHERE reading_date = '{current_date_str}' ORDER BY reading_date DESC LIMIT 1"
 sample_k_query = f"SELECT all_potassium FROM overall_data WHERE reading_date = '{current_date_str}' ORDER BY reading_date DESC LIMIT 1"
 
-#dito yung part na hardcoded if walang readings
 # Execute queries to get the latest sensor readings
 cursor.execute(sample_temperature_query)
 sample_temperature_result = cursor.fetchone()
-print("Sample Temperature Result:", sample_temperature_result)
-sample_temperature = float(sample_temperature_result[0]) if sample_temperature_result and cursor.rowcount > 0 else 21.0#pwede mo palinatan yung input values
+sample_temperature = float(sample_temperature_result[0]) if sample_temperature_result and cursor.rowcount > 0 else 33.0
 
 cursor.execute(sample_soil_temp_query)
 sample_soil_temp_result = cursor.fetchone()
-sample_soil_temp = float(sample_soil_temp_result[0]) if sample_soil_temp_result and cursor.rowcount > 0 else 15.0
+sample_soil_temp = float(sample_soil_temp_result[0]) if sample_soil_temp_result and cursor.rowcount > 0 else 90
 
 cursor.execute(sample_n_query)
 sample_n_result = cursor.fetchone()
-sample_n = float(sample_n_result[0]) if sample_n_result and cursor.rowcount > 0 else 0.0
+sample_n = float(sample_n_result[0]) if sample_n_result and cursor.rowcount > 0 else 32
 
 cursor.execute(sample_p_query)
 sample_p_result = cursor.fetchone()
-sample_p = float(sample_p_result[0]) if sample_p_result and cursor.rowcount > 0 else 0.0
+sample_p = float(sample_p_result[0]) if sample_p_result and cursor.rowcount > 0 else 42
 
 cursor.execute(sample_k_query)
 sample_k_result = cursor.fetchone()
-sample_k = float(sample_k_result[0]) if sample_k_result and cursor.rowcount > 0 else 0.0
+sample_k = float(sample_k_result[0]) if sample_k_result and cursor.rowcount > 0 else 11
 
 sample_solar_rad = df['SOLAR_RAD'].median()  # Use the median value from the dataset
 sample_rainfall = df['RAINFALL'].median()  # Use the median value from the dataset
@@ -129,8 +127,8 @@ predicted_status = label_encoder.inverse_transform(sample_prediction)
 
 print("Prediction:", predicted_status[0])
 
-# Convert the predicted status to 1 for 'green' and 0 otherwise
-predicted_status_value = 1 if predicted_status[0].lower() == 'green' else 0
+# Use the predicted status directly for updating the database
+predicted_status_value = predicted_status[0]
 
 formatted_current_date = datetime.now().strftime('%Y-%m-%d')
 
@@ -143,7 +141,6 @@ update_query = """
     WHERE reading_date = %s
 """
 
-
 # Try executing the update query with error handling
 update_cursor = connection.cursor()
 try:
@@ -155,4 +152,5 @@ except Exception as e:
 finally:
     update_cursor.close()  # Close the cursor
 
+# Close the database connection
 connection.close()

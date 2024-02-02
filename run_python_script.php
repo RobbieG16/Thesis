@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 echo "Executing PHP script...<br>";
 
 // Specify the full path to the Python executable
-$pythonCommand = 'C:\Users\neong\AppData\Local\Programs\Python\Python310\python.exe';
+$pythonCommand = 'C:\Users\ASUS\AppData\Local\Programs\Python\Python311\python.exe';
 
 // Execute Python script and capture its output
 $pythonScriptPath = "./Hybrid_prediction.py";
