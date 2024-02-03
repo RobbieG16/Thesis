@@ -5,9 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Animated Step Progress Bar</title>
-    <!-- <link rel="stylesheet" href="style.css"> -->
-
-    <!-- UniIcon CDN Link  -->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 </head>
 <body>
@@ -61,9 +58,6 @@
     <!-- <script src="main.js"></script> -->
 </body>
 </html>
-
-
-
 
 <style>
 
@@ -139,7 +133,7 @@ ul li .progress{
     color: #fff;
     position: relative;
     cursor: pointer;
-        transition: background-color 3s ease-in-out, width 4s ease-in-out;
+        transition: background-color 2s ease-in-out, width 2s ease-in-out;
 
 }
 .progress::after{
@@ -165,6 +159,7 @@ ul li .progress p{
 
 .active {
     background-color: #ffd700; /* Gold */
+    
 }
 
 ul li .active{
@@ -228,32 +223,27 @@ ul li .active .uil{
     color: #ffd700; /* Gold */
 }
 ul li .progress {
-    transition: 5s ease;
-}
-
-ul li .progress::after {
     transition: 2s ease;
 }
 
+ul li .progress::after {
+    transition: 1s ease;
+}
+
 </style>
-
 <script>
-
-
-
 const one = document.querySelector(".one");
 const two = document.querySelector(".two");
 const three = document.querySelector(".three");
 const four = document.querySelector(".four");
 const five = document.querySelector(".five");
 
-
 const progressSteps = document.querySelectorAll(".progress");
 let currentStep = 0;
 
 function activateStep(stepIndex) {
     for (let i = 0; i < progressSteps.length; i++) {
-        if (i === stepIndex) {
+        if (i <= stepIndex) {
             progressSteps[i].classList.add("active");
         } else {
             progressSteps[i].classList.remove("active");

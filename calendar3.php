@@ -155,7 +155,7 @@
     <div class="container-fluid">
         <div class="row">
             <?php include('sidebar.php'); ?>
-            <div class="col-md-6">
+            <div class="col-md-6 col-md-12">
                 <div class="calendar">
                     <div class="header">
                         <div class="month"></div>
@@ -186,7 +186,7 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-6 col-md-12">
                 <div class="calendar2">
                     <div class="header2">
                         <div class="month2"></div>
