@@ -90,17 +90,17 @@ function renderCalendar() {
 
       for (let i = 1; i <= lastDayDate; i++) {
         const dayStatusData = statusData[i] || { month: currentMonth + 1, year: currentYear, status: 0 };
-        const bgColor = dayStatusData.status === 1 ? 'green' : 'red';
+        const bgColor = dayStatusData.status === 'Green' ? 'green' : 'red';
 
         if (
           i === new Date().getDate() &&
           currentMonth === new Date().getMonth() &&
           currentYear === new Date().getFullYear()
         ) {
-          const clickableClass = dayStatusData.status === 1 ? 'clickable' : '';
+          const clickableClass = dayStatusData.status === 'Green' ? 'clickable' : '';
           days += `<div class="day today ${clickableClass}" style="background-color: ${bgColor}" data-day="${i}" data-month="${currentMonth}">${i}</div>`;
         } else {
-          const clickableClass = dayStatusData.status === 1 ? 'clickable' : '';
+          const clickableClass = dayStatusData.status === 'Green' ? 'clickable' : '';
           days += `<div class="day ${clickableClass}" style="background-color: ${bgColor}" data-day="${i}" data-month="${currentMonth}">${i}</div>`;
         }
       }

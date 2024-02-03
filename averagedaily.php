@@ -13,7 +13,7 @@ if ($conn->connect_error) {
 
 $currentDate = date("Y-m-d");
 
-$query = "SELECT AVG(nitrogen) AS avg_nitrogen, AVG(potassium) AS avg_potassium, AVG(phosphorus) AS avg_phosphorus, AVG(soil_temperature) AS avg_soil_temperature, AVG(air_temp) AS avg_air_temp FROM sensor1 WHERE DATE(reading_time) = '$currentDate'";
+$query = "SELECT AVG(nitrogen) AS avg_nitrogen, AVG(potassium) AS avg_potassium, AVG(phosphorus) AS avg_phosphorus, AVG(soil_temperature) AS avg_soil_temperature, AVG(air_temp) AS avg_air_temp, MAX(reading_time) AS latest_time FROM sensor1 WHERE DATE(reading_time) = '$currentDate'";
 
 $result = $conn->query($query);
 
@@ -25,14 +25,14 @@ if ($result) {
     $avgPhosphorus = $row['avg_phosphorus'];
     $avgSoilTemperature = $row['avg_soil_temperature'];
     $avgAirTemp = $row['avg_air_temp'];
+    $latestTime = $row['latest_time'];
 
-    // Insert averages into dailysensor1 table
-    $insertQuery = "INSERT INTO dailysensor1 (nitrogen, potassium, phosphorus, soil_temperature, air_temp, date) VALUES ('$avgNitrogen', '$avgPotassium', '$avgPhosphorus', '$avgSoilTemperature', '$avgAirTemp', '$currentDate')";
+    $insertQuery = "INSERT INTO dailysensor1 (nitrogen, potassium, phosphorus, soil_temperature, air_temp, date, latest_time) VALUES ('$avgNitrogen', '$avgPotassium', '$avgPhosphorus', '$avgSoilTemperature', '$avgAirTemp', '$currentDate', '$latestTime')";
 
     $insertResult = $conn->query($insertQuery);
 
     if ($insertResult) {
-        $statusMessage = "Data fetched and inserted successfully.";
+        $statusMessage = "Data fetched and inserted successfully. Latest time: $latestTime";
     } else {
         $statusMessage = "Error inserting data: " . $conn->error;
     }

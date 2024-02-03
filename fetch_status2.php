@@ -30,7 +30,7 @@ if ($query->execute()) {
             $status = $row['hybrid_status'];
     
             // Determine if the day is clickable based on the status
-            $clickable = ($status == 1) ? true : false;
+            $clickable = ($status == 'Green') ? true : false;
     
             // Add day data to the statusData array
             $statusData[$day] = array('month' => $month, 'year' => $year, 'status' => $status, 'clickable' => $clickable);
